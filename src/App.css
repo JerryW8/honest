@@ -126,3 +126,14 @@
   top: 50vh;
   left: 50vw;
 }
+
+.done {
+  font-family: 'Montserrat', sans-serif;
+  font-style: normal;
+  font-size: 18px;
+  left: 42%;
+  position: absolute;
+  background-color: rgb(154, 240, 26);
+  border-color: rgb(154, 240, 26);
+  border-radius: 8px;
+}

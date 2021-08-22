@@ -1,24 +1,39 @@
 import React, { useState, useEffect } from 'react'
+import { useHistory } from 'react-router'
 import PropagateLoader from 'react-spinners/PropagateLoader'
 import Chemical from './Chemical'
 
 const Summary = (props) => {
 
-    const [chemicals, setChemical] = useState([1, 2, 3])
-    const [data, setData] = useState({})
-    const [text, setText] = useState(props.history.location.state ? props.history.location.state.text : '')
+    const [chemicals, setChemicals] = useState([])
     const [loading, setLoading] = useState(true)
+    const history = useHistory()
 
     useEffect(() => {
-        fetch('/api').then(
-            response => response.json()
-        ).then(
-            data => {
-                setData(data)
-                setLoading(false)
+        async function getList() {
+            const text = props.history.location.state ? props.history.location.state.text : 'Retinoids'
+            const ingredientsList = text.split(/,\s*/)
+            let data = []
+            console.log(ingredientsList)
+            for (let i = 0; i < ingredientsList.length; i++) {
+                const summ = await (await fetch('/summary/' + ingredientsList[i])).json()
+                const status = await (await fetch('/carcinogen/' + ingredientsList[i])).json()
+                data.push({
+                    name: ingredientsList[i],
+                    summ: summ.summary,
+                    carcinogen: status.carcinogen
+                })
+                console.log(data)
             }
-        )
+            setChemicals(data)
+            setLoading(false)
+        }
+        getList()
     }, []);
+
+    async function goToStart() {
+        history.push("/")
+    }
 
     return (
         <>
@@ -32,6 +47,7 @@ const Summary = (props) => {
                     <div className="container">
                         {chemicals.map((item, i) => <Chemical key={i} chemical={item} />)}
                     </div>
+                    <button className="done" onClick={() => goToStart()}>Done</button>
                 </div>
             }
         </>
