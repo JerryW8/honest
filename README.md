@@ -1,6 +1,6 @@
 # Honest
 
-This project was built for HackThe6ix 2021
+This project was built for HackThe6ix 2021.
 
 Honest provides near instant information to people shopping for consumer goods (ex. food, cosmetics, etc.). The app allows them to simply take a picture of a list of ingredients and display the purpose of those ingredients, as well as flag any that are potential carcinogens identified by the World Health Organization.
 
